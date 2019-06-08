@@ -1,0 +1,22 @@
+{
+  "name": "desafio-node-devninjas",
+  "version": "1.0.0",
+  "description": "API para o desafio para vaga de desenvolvedor na Dev Ninjas",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "author": "Elvis Douglas Janegitz (edjelvis@gmail.com)",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "sequelize": "^5.8.7"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
