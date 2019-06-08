@@ -10,7 +10,11 @@ app.use(bodyParser.json())
 
 // CHAMADA DAS ROTAS
 const rotaIndex = require('./routes/index')
+const rotaUsuario = require('./routes/usuario')
+const rotaToken = require('./routes/token')
 
 rotaIndex(app)
+rotaUsuario(app)
+rotaToken(app)
 
 module.exports = app
