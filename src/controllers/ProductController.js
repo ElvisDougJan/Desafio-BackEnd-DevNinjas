@@ -13,7 +13,7 @@ class ProductController {
         .insert(req.body)
         .then(() => res.json({
           success: true,
-          message: 'Product creaded successfully!'
+          message: 'Product created successfully!'
         }))
         .catch(err => res.json(err))
     }
@@ -55,7 +55,7 @@ class ProductController {
           })
           : res.status(404).json({
             success: false,
-            message: 'Product not exists in database.'
+            message: `ID ${req.params.id} producer does not exist in database.`
           })
       )
   }

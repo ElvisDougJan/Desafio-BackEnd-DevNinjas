@@ -13,10 +13,12 @@ const indexRoute = require('./routes/index')
 const userRoute = require('./routes/user')
 const tokenRoute = require('./routes/token')
 const productRoute = require('./routes/products')
+const customersRoute = require('./routes/customers')
 
 indexRoute(app)
 userRoute(app)
 tokenRoute(app)
 productRoute(app)
+customersRoute(app)
 
 module.exports = app
