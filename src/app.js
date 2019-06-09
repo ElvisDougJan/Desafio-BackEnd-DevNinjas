@@ -12,9 +12,11 @@ app.use(bodyParser.json())
 const indexRoute = require('./routes/index')
 const userRoute = require('./routes/user')
 const tokenRoute = require('./routes/token')
+const productRoute = require('./routes/product')
 
 indexRoute(app)
 userRoute(app)
 tokenRoute(app)
+productRoute(app)
 
 module.exports = app

@@ -1,10 +1,10 @@
 const Schema = require('mongoose').Schema
-const { v4 } = require('uuid')
+// const { v4 } = require('uuid')
 
 const ProductSchema = new Schema({
-  _id: { type: String },
-  sku: { type: Number, required: true },
-  name: { type: String, required: true },
+  id: { type: Number, required: true },
+  sku: { type: Number, required: true, unique: true },
+  name: { type: String, required: true, unique: true },
   price: { type: Number, required: true }
 }, {
     timestamps: {
@@ -13,9 +13,9 @@ const ProductSchema = new Schema({
     }
   })
 
-ProductSchema.pre('save', function () {
-  this._id = v4()
-})
+// ProductSchema.pre('save', function () {
+//   this._id = v4()
+// })
 
 function createProductModel() {
   const db = require('../config/database')()
