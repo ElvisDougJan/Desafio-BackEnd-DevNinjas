@@ -10,8 +10,19 @@ class UserController {
 
     table('users')
       .insert(req.body)
-      .then(() => res.status(200).json('User created!'))
-      .catch(err => res.status(400).json(err))
+      .then(() =>
+        res.status(200).json({
+          success: true,
+          message: 'User created!'
+        })
+      )
+      .catch(error =>
+        res.status(400).json({
+          success: false,
+          message: 'Error creating user.',
+          error
+        })
+      )
   }
 
   generateNewToken(req, res) {
