@@ -1,8 +1,8 @@
-const AutenticacaoController = require('../controllers/UsuarioController')
-const autenticacaoController = new AutenticacaoController()
+const UserController = require('../controllers/UserController')
+const userController = new UserController()
 
 module.exports = app => {
   app.post('/token', (req, res) => {
-    autenticacaoController.gerarToken(req, res)
+    userController.generateNewToken(req, res)
   })
 }

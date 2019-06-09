@@ -9,12 +9,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // CHAMADA DAS ROTAS
-const rotaIndex = require('./routes/index')
-const rotaUsuario = require('./routes/usuario')
-const rotaToken = require('./routes/token')
+const indexRoute = require('./routes/index')
+const userRoute = require('./routes/user')
+const tokenRoute = require('./routes/token')
+const productRoute = require('./routes/products')
 
-rotaIndex(app)
-rotaUsuario(app)
-rotaToken(app)
+indexRoute(app)
+userRoute(app)
+tokenRoute(app)
+productRoute(app)
 
 module.exports = app
