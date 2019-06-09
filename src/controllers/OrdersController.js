@@ -42,14 +42,37 @@ class OrdersController {
         .then(async () => {
           return table('items')
             .insert(listItems)
-            .then(() => res.status(200).json({
-              success: true,
-              message: 'Order created successfully!'
-            }))
+            .then(() =>
+              res.status(200).json({
+                success: true,
+                message: 'Order created successfully!'
+              }))
             .catch(err => new Error(err))
         })
         .catch(err => res.status(400).json(err))
     }
+  }
+
+  updateStatusOrderPerID(req, res) {
+    table('orders')
+      .where({
+        id: req.params.id
+      })
+      .update({
+        status: req.body.status
+      })
+      .then(order_updated =>
+        order_updated === 1
+          ? res.status(200).json({
+            success: true,
+            message: `Order ID ${req.params.id} updated successfully!`
+          })
+          : res.status(400).json({
+            success: false,
+            message: `Error on update order ID ${req.params.id}! Make sure the ID is correct.`
+          })
+      )
+      .catch(err => new Error(err))
   }
 }
 
