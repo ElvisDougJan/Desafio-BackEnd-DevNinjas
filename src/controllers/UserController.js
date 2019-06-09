@@ -30,9 +30,9 @@ class UserController {
       .where({
         email: req.body.email
       })
-      .then(foundUser => {
-        if (foundUser.length > 0) {
-          const { name, email, id } = foundUser[0]
+      .then(found_user => {
+        if (found_user.length > 0) {
+          const { name, email, id } = found_user[0]
           const token = jwt.sign({ name, email, id }, 'api-dev-ninjas')
           res.status(200).json({
             success: true,
@@ -59,10 +59,13 @@ class UserController {
       .where({
         id: req.params.id
       })
-      .then(foundUser =>
-        foundUser.length > 0
-          ? res.status(200).json(foundUser)
-          : res.status(404).json('User not found!')
+      .then(found_user =>
+        found_user.length > 0
+          ? res.status(200).json(found_user[0])
+          : res.status(404).json({
+            success: false,
+            message: 'User not found!'
+          })
       )
       .catch(err => res.json(err))
   }
