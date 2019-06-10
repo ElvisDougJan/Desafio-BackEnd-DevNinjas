@@ -77,131 +77,37 @@ class OrdersController {
 
   async getAllOrders(req, res) {
     let order_formated = []
-    let items_formated = []
-    let buyer = {}
 
     await knex('orders')
       .leftJoin('customers', function () {
         this.on('orders.id', '=', 'customers.id')
       })
       .then(async order_founded => {
-        order_founded.forEach(order => {
-          knex('items')
+        for (let i in order_founded) {
+          await knex('items')
             .where({
-              order_id: order.id
+              order_id: order_founded[i].id
             })
             .then(items_found => {
               const list_items = items_found.map(items => ({ ...items }))
-              console.log({
-                id: order.id,
-                created_at: order.created_at,
-                status: order.status,
-                total: order.total,
+              order_formated.push({
+                id: order_founded[i].id,
+                created_at: order_founded[i].created_at,
+                status: order_founded[i].status,
+                total: order_founded[i].total,
                 buyer: {
-                  id: order.customer_id,
-                  name: order.name,
-                  cpf: order.cpf,
-                  email: order.email
+                  id: order_founded[i].customer_id,
+                  name: order_founded[i].name,
+                  cpf: order_founded[i].cpf,
+                  email: order_founded[i].email
                 },
                 items: list_items
               })
             })
-          })
-          // console.log(order_formated)
-        // order_founded.forEach(order => {
-        //   knex('items')
-        //     .leftJoin('products', function () {
-        //       this.on('items.product_id', '=', 'products.id')
-        //     })
-        //     .where({
-        //       order_id: 0
-        //     })
-        //     .then(items_found => {
-        //       console.log(items_found)
-        //     })
-        //     .catch(err => console.log(err))
-        // })
-
-        // order_founded.forEach(order => {
-        //   knex('customers')
-        //     .where({ id: order.customer_id })
-        //     .then(costumer_found => {
-        //       knex('items')
-        //         .where({
-        //           order_id: order.id
-        //         })
-        //         .then(items_found => {
-        //           order_formated.push({
-        //             id: order.id,
-        //             created_at: order.created_at,
-        //             status: order.status,
-        //             total: order.total,
-        //             buyer: {
-        //               id: costumer_found.customer_id,
-        //               name: costumer_found.name,
-        //               cpf: costumer_found.cpf,
-        //               email: costumer_found.email
-        //             },
-        //             items: []
-        //           })
-        //         })
-        //     })
-        // })
-
-        // order_formated = order_founded.map(order => ({
-        //   id: order.id,
-        //   created_at: order.created_at,
-        //   status: order.status,
-        //   total: order.total,
-        //   buyer: {
-        //     id: order.customer_id,
-        //     name: order.name,
-        //     cpf: order.cpf,
-        //     email: order.email
-        //   },
-        //   items: []
-        // }))
-
-        // knex('items')
-        //   .leftJoin('products', function () {
-        //     this.on('items.product_id', '=', 'products.id')
-        //   })
-        //   .where({
-        //     order_id: order_founded[0].id
-        //   })
-        //   .then(r => console.log(r))
-        //   .catch(err => console.log(err))
+        }
+        res.status(200).json(order_formated)
       })
-    // await knex
-    //   .select('*')
-    //   .from('items')
-    //   .leftJoin('products', function () {
-    //     this.on('items.product_id', '=', 'products.id')
-    //   })
-    //   .then(items_founded => {
-    //     items_formated = items_founded.map(item => ({
-    //       product: {
-    //         id: item.product_id,
-    //         sku: item.sku,
-    //         title: item.name,
-    //       },
-    //       amount: item.amount,
-    //       price_unit: item.price_unit,
-    //       total: item.total
-    //     }))
-    //   })
-    //   .catch(err => res.status(400).json(err))
-
-    // let order_final = order_formated.map(order => ({
-    //   id: order.id,
-    //   created_at: order.created_at,
-    //   status: order.status,
-    //   total: order.total,
-    //   buyer,
-    //   items: items_formated
-    // }))
-
-    // res.json(order_formated)
+      .catch(err => res.status(400).json(err))
   }
 }
 
