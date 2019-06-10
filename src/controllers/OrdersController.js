@@ -1,4 +1,4 @@
-const table = require('./../config/db')
+const knex = require('./../config/db')
 const moment = require('moment')
 
 class OrdersController {
@@ -37,10 +37,10 @@ class OrdersController {
         order_id: req.body.id
       }))
 
-      return table('orders')
+      return knex('orders')
         .insert(newOrder)
         .then(async () => {
-          return table('items')
+          return knex('items')
             .insert(listItems)
             .then(() =>
               res.status(200).json({
@@ -54,7 +54,7 @@ class OrdersController {
   }
 
   updateStatusOrderPerID(req, res) {
-    table('orders')
+    knex('orders')
       .where({
         id: req.params.id
       })
@@ -73,6 +73,135 @@ class OrdersController {
           })
       )
       .catch(err => new Error(err))
+  }
+
+  async getAllOrders(req, res) {
+    let order_formated = []
+    let items_formated = []
+    let buyer = {}
+
+    await knex('orders')
+      .leftJoin('customers', function () {
+        this.on('orders.id', '=', 'customers.id')
+      })
+      .then(async order_founded => {
+        order_founded.forEach(order => {
+          knex('items')
+            .where({
+              order_id: order.id
+            })
+            .then(items_found => {
+              const list_items = items_found.map(items => ({ ...items }))
+              console.log({
+                id: order.id,
+                created_at: order.created_at,
+                status: order.status,
+                total: order.total,
+                buyer: {
+                  id: order.customer_id,
+                  name: order.name,
+                  cpf: order.cpf,
+                  email: order.email
+                },
+                items: list_items
+              })
+            })
+          })
+          // console.log(order_formated)
+        // order_founded.forEach(order => {
+        //   knex('items')
+        //     .leftJoin('products', function () {
+        //       this.on('items.product_id', '=', 'products.id')
+        //     })
+        //     .where({
+        //       order_id: 0
+        //     })
+        //     .then(items_found => {
+        //       console.log(items_found)
+        //     })
+        //     .catch(err => console.log(err))
+        // })
+
+        // order_founded.forEach(order => {
+        //   knex('customers')
+        //     .where({ id: order.customer_id })
+        //     .then(costumer_found => {
+        //       knex('items')
+        //         .where({
+        //           order_id: order.id
+        //         })
+        //         .then(items_found => {
+        //           order_formated.push({
+        //             id: order.id,
+        //             created_at: order.created_at,
+        //             status: order.status,
+        //             total: order.total,
+        //             buyer: {
+        //               id: costumer_found.customer_id,
+        //               name: costumer_found.name,
+        //               cpf: costumer_found.cpf,
+        //               email: costumer_found.email
+        //             },
+        //             items: []
+        //           })
+        //         })
+        //     })
+        // })
+
+        // order_formated = order_founded.map(order => ({
+        //   id: order.id,
+        //   created_at: order.created_at,
+        //   status: order.status,
+        //   total: order.total,
+        //   buyer: {
+        //     id: order.customer_id,
+        //     name: order.name,
+        //     cpf: order.cpf,
+        //     email: order.email
+        //   },
+        //   items: []
+        // }))
+
+        // knex('items')
+        //   .leftJoin('products', function () {
+        //     this.on('items.product_id', '=', 'products.id')
+        //   })
+        //   .where({
+        //     order_id: order_founded[0].id
+        //   })
+        //   .then(r => console.log(r))
+        //   .catch(err => console.log(err))
+      })
+    // await knex
+    //   .select('*')
+    //   .from('items')
+    //   .leftJoin('products', function () {
+    //     this.on('items.product_id', '=', 'products.id')
+    //   })
+    //   .then(items_founded => {
+    //     items_formated = items_founded.map(item => ({
+    //       product: {
+    //         id: item.product_id,
+    //         sku: item.sku,
+    //         title: item.name,
+    //       },
+    //       amount: item.amount,
+    //       price_unit: item.price_unit,
+    //       total: item.total
+    //     }))
+    //   })
+    //   .catch(err => res.status(400).json(err))
+
+    // let order_final = order_formated.map(order => ({
+    //   id: order.id,
+    //   created_at: order.created_at,
+    //   status: order.status,
+    //   total: order.total,
+    //   buyer,
+    //   items: items_formated
+    // }))
+
+    // res.json(order_formated)
   }
 }
 

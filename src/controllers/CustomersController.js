@@ -4,17 +4,29 @@ const validateCPF = require('validar-cpf')
 
 class CustomerController {
   createNewCustomer(req, res) {
+    let created_at = ''
+    let updated_at = ''
+
     if (!validateCPF(req.body.cpf)) {
       res.status(400).json({
         success: false,
         message: 'This CPF is not valid!'
       })
     } else {
-      req.body.created_at = moment(req.body.created_at).format('YYYY-MM-DD HH:mm:ss')
-      req.body.updated_at = moment(req.body.updated_at).format('YYYY-MM-DD HH:mm:ss')
+      if (req.body.created_at || req.body.updated_at) {
+        created_at = moment(req.body.created_at).format('YYYY-MM-DD HH:mm:ss')
+        updated_at = moment(req.body.updated_at).format('YYYY-MM-DD HH:mm:ss')
+      } else {
+        created_at = moment().format('YYYY-MM-DD HH:mm:ss')
+        updated_at = moment().format('YYYY-MM-DD HH:mm:ss')
+      }
 
       table('customers')
-        .insert(req.body)
+        .insert({
+          ...req.body,
+          created_at,
+          updated_at
+        })
         .then(() =>
           res.status(200).json({
             success: true,
