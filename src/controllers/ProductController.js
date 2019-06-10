@@ -3,14 +3,26 @@ const moment = require('moment')
 
 class ProductController {
   createNewProduct(req, res) {
+    let created_at = ''
+    let updated_at = ''
+
     if (req.body.price < 0) {
       res.json('O preço precisa ser maior que zero!')
     } else {
-      req.body.created_at = moment(req.body.created_at).format('YYYY-MM-DD HH:mm:ss')
-      req.body.updated_at = moment(req.body.updated_at).format('YYYY-MM-DD HH:mm:ss')
+      if (req.body.created_at || req.body.updated_at) {
+        created_at = moment(req.body.created_at).format('YYYY-MM-DD HH:mm:ss')
+        updated_at = moment(req.body.updated_at).format('YYYY-MM-DD HH:mm:ss')
+      } else {
+        created_at = moment().format('YYYY-MM-DD HH:mm:ss')
+        updated_at = moment().format('YYYY-MM-DD HH:mm:ss')
+      }
 
       table('products')
-        .insert(req.body)
+        .insert({
+          ...req.body,
+          created_at,
+          updated_at
+        })
         .then(() => res.json({
           success: true,
           message: 'Product created successfully!'
