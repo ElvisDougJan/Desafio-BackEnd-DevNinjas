@@ -2,7 +2,7 @@ const knex = require('./../config/db')
 const moment = require('moment')
 
 class OrdersController {
-  async createNewOrder(req, res) {
+  async createNewOrder (req, res) {
     const { id, created_at, status, total, buyer } = req.body
 
     if (total < 0) {
@@ -21,7 +21,7 @@ class OrdersController {
     }
 
     const everyValuesOK = req.body.items.every(item =>
-      item.price_unit < 0 || item.total < 0 || item.amount < 0 ? false : true)
+      !(item.price_unit < 0 || item.total < 0 || item.amount < 0))
 
     if (!everyValuesOK) {
       res.json({
@@ -53,7 +53,7 @@ class OrdersController {
     }
   }
 
-  updateStatusOrderPerID(req, res) {
+  updateStatusOrderPerID (req, res) {
     knex('orders')
       .where({
         id: req.params.id
@@ -61,8 +61,8 @@ class OrdersController {
       .update({
         status: req.body.status
       })
-      .then(order_updated =>
-        order_updated === 1
+      .then(orderUpdated =>
+        orderUpdated === 1
           ? res.status(200).json({
             success: true,
             message: `Order ID ${req.params.id} updated successfully!`
@@ -75,37 +75,37 @@ class OrdersController {
       .catch(err => new Error(err))
   }
 
-  async getAllOrders(req, res) {
-    let order_formated = []
+  async getAllOrders (req, res) {
+    let orderFormated = []
 
     await knex('orders')
       .leftJoin('customers', function () {
         this.on('orders.id', '=', 'customers.id')
       })
-      .then(async order_founded => {
-        for (let i in order_founded) {
+      .then(async orderFounded => {
+        for (let i in orderFounded) {
           await knex('items')
             .where({
-              order_id: order_founded[i].id
+              order_id: orderFounded[i].id
             })
-            .then(items_found => {
-              const list_items = items_found.map(items => ({ ...items }))
-              order_formated.push({
-                id: order_founded[i].id,
-                created_at: order_founded[i].created_at,
-                status: order_founded[i].status,
-                total: order_founded[i].total,
+            .then(itemsFound => {
+              const listItems = itemsFound.map(items => ({ ...items }))
+              orderFormated.push({
+                id: orderFounded[i].id,
+                created_at: orderFounded[i].created_at,
+                status: orderFounded[i].status,
+                total: orderFounded[i].total,
                 buyer: {
-                  id: order_founded[i].customer_id,
-                  name: order_founded[i].name,
-                  cpf: order_founded[i].cpf,
-                  email: order_founded[i].email
+                  id: orderFounded[i].customer_id,
+                  name: orderFounded[i].name,
+                  cpf: orderFounded[i].cpf,
+                  email: orderFounded[i].email
                 },
-                items: list_items
+                items: listItems
               })
             })
         }
-        res.status(200).json(order_formated)
+        res.status(200).json(orderFormated)
       })
       .catch(err => res.status(400).json(err))
   }

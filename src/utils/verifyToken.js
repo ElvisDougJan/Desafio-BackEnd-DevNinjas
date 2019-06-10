@@ -6,7 +6,7 @@ exports.verifyToken = (req, res, next) => {
   if (token) {
     if (token.includes('Bearer ')) {
       // Removendo Bearer da string
-      token = token.slice(7, token.length);
+      token = token.slice(7, token.length)
     }
     jwt.verify(token, 'api-dev-ninjas', (err, decode) => {
       if (err) {

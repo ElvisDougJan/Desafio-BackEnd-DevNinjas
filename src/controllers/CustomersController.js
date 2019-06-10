@@ -3,7 +3,7 @@ const moment = require('moment')
 const validateCPF = require('validar-cpf')
 
 class CustomerController {
-  createNewCustomer(req, res) {
+  createNewCustomer (req, res) {
     let created_at = ''
     let updated_at = ''
 
@@ -37,20 +37,20 @@ class CustomerController {
     }
   }
 
-  getAllCustomers(req, res) {
+  getAllCustomers (req, res) {
     table('customers')
-      .then(list_customers => res.status(200).json(list_customers))
+      .then(listCustomers => res.status(200).json(listCustomers))
       .catch(err => res.status(404).json(err))
   }
 
-  getOneCustomerPerID(req, res) {
+  getOneCustomerPerID (req, res) {
     table('customers')
       .where({
         id: req.params.id
       })
-      .then(customer_found =>
-        customer_found.length > 0
-          ? res.status(200).json(customer_found[0])
+      .then(customeFound =>
+        customeFound.length > 0
+          ? res.status(200).json(customeFound[0])
           : res.status(404).json({
             success: false,
             message: 'Customer not found!'
@@ -58,14 +58,14 @@ class CustomerController {
       )
   }
 
-  deleteOneCustomerPerID(req, res) {
+  deleteOneCustomerPerID (req, res) {
     table('customers')
       .where({
         id: req.params.id
       })
       .del()
-      .then(customer_deleted =>
-        customer_deleted === 1
+      .then(customerDeleted =>
+        customerDeleted === 1
           ? res.status(200).json({
             success: true,
             message: 'Customer deleted successfully!'

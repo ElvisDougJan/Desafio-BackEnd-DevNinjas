@@ -2,7 +2,7 @@ const table = require('./../config/db')
 const moment = require('moment')
 
 class ProductController {
-  createNewProduct(req, res) {
+  createNewProduct (req, res) {
     let created_at = ''
     let updated_at = ''
 
@@ -31,13 +31,13 @@ class ProductController {
     }
   }
 
-  getAllProducts(req, res) {
+  getAllProducts (req, res) {
     table('products')
-      .then(list_products => res.json(list_products))
+      .then(listProducts => res.json(listProducts))
       .catch(err => res.status(400).json(err))
   }
 
-  getOneProductPerID(req, res) {
+  getOneProductPerID (req, res) {
     table('products')
       .where({
         id: req.params.id
@@ -53,14 +53,14 @@ class ProductController {
       .catch(err => res.status(500).json(err))
   }
 
-  deleteOneProductPerID(req, res) {
+  deleteOneProductPerID (req, res) {
     table('products')
       .where({
         id: req.params.id
       })
       .del()
-      .then(deleted_product =>
-        deleted_product === 1
+      .then(deletedProduct =>
+        deletedProduct === 1
           ? res.status(200).json({
             success: true,
             message: 'Product deleted successfully!'

@@ -3,8 +3,7 @@ const bcrypt = require('bcrypt')
 const table = require('./../config/db')
 
 class UserController {
-  createUserForLogin(req, res) {
-
+  createUserForLogin (req, res) {
     const salt = bcrypt.genSaltSync(10)
     req.body.password = bcrypt.hashSync(req.body.password, salt)
 
@@ -25,14 +24,14 @@ class UserController {
       )
   }
 
-  generateNewToken(req, res) {
+  generateNewToken (req, res) {
     table('users')
       .where({
         email: req.body.email
       })
-      .then(found_user => {
-        if (found_user.length > 0) {
-          const { name, email, id } = found_user[0]
+      .then(foundUser => {
+        if (foundUser.length > 0) {
+          const { name, email, id } = foundUser[0]
           const token = jwt.sign({ name, email, id }, 'api-dev-ninjas')
           res.status(200).json({
             success: true,
@@ -48,20 +47,20 @@ class UserController {
       .catch(err => new Error(err))
   }
 
-  getAllUsers(req, res) {
+  getAllUsers (req, res) {
     table('users')
-      .then(users_list => res.status(200).json(users_list))
+      .then(usersList => res.status(200).json(usersList))
       .catch(err => res.status(400).json(err))
   }
 
-  getOneUserPerID(req, res) {
+  getOneUserPerID (req, res) {
     table('users')
       .where({
         id: req.params.id
       })
-      .then(found_user =>
-        found_user.length > 0
-          ? res.status(200).json(found_user[0])
+      .then(foundUser =>
+        foundUser.length > 0
+          ? res.status(200).json(foundUser[0])
           : res.status(404).json({
             success: false,
             message: 'User not found!'
