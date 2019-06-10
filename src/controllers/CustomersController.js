@@ -1,4 +1,4 @@
-const table = require('./../config/db')
+const knex = require('./../config/db')
 const moment = require('moment')
 const validateCPF = require('validar-cpf')
 
@@ -21,7 +21,7 @@ class CustomerController {
         updated_at = moment().format('YYYY-MM-DD HH:mm:ss')
       }
 
-      table('customers')
+      knex('customers')
         .insert({
           ...req.body,
           created_at,
@@ -38,13 +38,13 @@ class CustomerController {
   }
 
   getAllCustomers (req, res) {
-    table('customers')
+    knex('customers')
       .then(listCustomers => res.status(200).json(listCustomers))
       .catch(err => res.status(404).json(err))
   }
 
   getOneCustomerPerID (req, res) {
-    table('customers')
+    knex('customers')
       .where({
         id: req.params.id
       })
@@ -59,7 +59,7 @@ class CustomerController {
   }
 
   deleteOneCustomerPerID (req, res) {
-    table('customers')
+    knex('customers')
       .where({
         id: req.params.id
       })

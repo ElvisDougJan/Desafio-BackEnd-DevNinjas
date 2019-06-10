@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const table = require('./../config/db')
+const knex = require('./../config/db')
 
 class UserController {
   createUserForLogin (req, res) {
     const salt = bcrypt.genSaltSync(10)
     req.body.password = bcrypt.hashSync(req.body.password, salt)
 
-    table('users')
+    knex('users')
       .insert(req.body)
       .then(() =>
         res.status(200).json({
@@ -25,14 +25,14 @@ class UserController {
   }
 
   generateNewToken (req, res) {
-    table('users')
+    knex('users')
       .where({
         email: req.body.email
       })
       .then(foundUser => {
         if (foundUser.length > 0) {
           const { name, email, id } = foundUser[0]
-          const token = jwt.sign({ name, email, id }, 'api-dev-ninjas')
+          const token = jwt.sign({ name, email, id }, process.env.JWT_SECRET)
           res.status(200).json({
             success: true,
             token
@@ -48,13 +48,13 @@ class UserController {
   }
 
   getAllUsers (req, res) {
-    table('users')
+    knex('users')
       .then(usersList => res.status(200).json(usersList))
       .catch(err => res.status(400).json(err))
   }
 
   getOneUserPerID (req, res) {
-    table('users')
+    knex('users')
       .where({
         id: req.params.id
       })

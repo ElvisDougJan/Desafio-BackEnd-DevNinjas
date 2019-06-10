@@ -1,4 +1,4 @@
-const table = require('./../config/db')
+const knex = require('./../config/db')
 const moment = require('moment')
 
 class ProductController {
@@ -17,7 +17,7 @@ class ProductController {
         updated_at = moment().format('YYYY-MM-DD HH:mm:ss')
       }
 
-      table('products')
+      knex('products')
         .insert({
           ...req.body,
           created_at,
@@ -32,13 +32,13 @@ class ProductController {
   }
 
   getAllProducts (req, res) {
-    table('products')
+    knex('products')
       .then(listProducts => res.json(listProducts))
       .catch(err => res.status(400).json(err))
   }
 
   getOneProductPerID (req, res) {
-    table('products')
+    knex('products')
       .where({
         id: req.params.id
       })
@@ -54,7 +54,7 @@ class ProductController {
   }
 
   deleteOneProductPerID (req, res) {
-    table('products')
+    knex('products')
       .where({
         id: req.params.id
       })

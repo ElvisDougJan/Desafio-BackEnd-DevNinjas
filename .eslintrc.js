@@ -22,6 +22,6 @@ module.exports = {
   "rules": {
     "no-explicit-any": 0,
     "camelcase": "off",
-    "camelcase": [0, { "properties": "never", "ignoreDestructuring": true }]
+    "no-underscore-dangle": "off"
   }
 };

@@ -1,12 +1,9 @@
-// Update with your config settings.
-const { password } = require('./.env')
-
 module.exports = {
   client: 'mysql',
   connection: {
     database: 'devninjas',
     user: 'root',
-    password
+    password: process.env.PASSWORD
   },
   pool: {
     min: 2,

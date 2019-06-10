@@ -8,7 +8,7 @@ exports.verifyToken = (req, res, next) => {
       // Removendo Bearer da string
       token = token.slice(7, token.length)
     }
-    jwt.verify(token, 'api-dev-ninjas', (err, decode) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
       if (err) {
         return res.json('Token inválido.')
       } else {
