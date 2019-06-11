@@ -16,13 +16,13 @@ Após rodar os comandos SQL de criação das tabelas, deve-se criar um usuário 
 ##### POST:
 `/v1/users`
 
-````json
+```json
 {
   "name": "admin",
   "password": "123456",
   "email": "admin@email.com"
 }
-````
+```
 
 Deverá retornar está mensagem:
 ```json
@@ -30,7 +30,7 @@ Deverá retornar está mensagem:
     "success": true,
     "message": "User created!"
 }
-````
+```
 
 Para gerar o token deve realizar **post** na rota `/v1/token` passando o email no corpo da requisição:
 
@@ -38,7 +38,7 @@ Para gerar o token deve realizar **post** na rota `/v1/token` passando o email n
 {
     "email": "admin@email.com"
 }
-````
+```
 
 Deve retornar isto:
 ```json
