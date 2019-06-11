@@ -2,7 +2,7 @@ const UserController = require('../controllers/UserController')
 const userController = new UserController()
 
 module.exports = app => {
-  app.post('/token', (req, res) =>
+  app.post('/v1/token', (req, res) =>
     userController.generateNewToken(req, res)
   )
 }
