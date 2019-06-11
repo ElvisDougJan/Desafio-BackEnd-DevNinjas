@@ -3,6 +3,8 @@
 API desenvolvida para participação do processo seletivo da vaga de desenvolvedor. 
 
 ***OBS.: O teste necessita de conexão com o banco de dados MySQL instalado localmente.***
+**No código está sendo considerado que o usuário do banco e a senha seja *'root'* para ambos. Caso queira alterar, realize esta operação alterando o usuário na *linha 6* e a senha na *linha 7* no arquivo *knexfile.js*.**
+
 #### 1° Passo:
 ### Execução das queries para criação das tabelas no Banco de Dados.
 
