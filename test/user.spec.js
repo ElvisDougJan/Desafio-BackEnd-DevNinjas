@@ -1,18 +1,17 @@
-const { request, expect } = require('chai')
+const chai = require('chai')
 const app = require('./../src/app')
+const chaiHttp = require('chai-http')
+
+chai.use(chaiHttp)
 
 describe('# USUÁRIOS', () => {
   describe('Deve cadastrar um novo usuário ADMIN', () => {
     it('Deve retornar um objeto informando se deu sucesso', () => {
-      request(app)
-        .post('/v1/users')
-        .send(JSON.stringify({
-          nome: 'userAdmin',
-          email: 'admin@email.com',
-          senha: '123456'
-        }))
-        .then(res => {
-          expect(res.body).to.be.an('object')
+      chai.request(app)
+        .get('/v1/users')
+        .end((err, res) => {
+          chai.expect(res).to.have.status(200)
+          chai.expect(res).to.be.an('array')
         })
     })
   })
