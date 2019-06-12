@@ -14,4 +14,8 @@ module.exports = app => {
   app.get('/v1/users/:id', verifyToken, (req, res) =>
     userController.getOneUserPerID(req, res)
   )
+
+  app.delete('/v1/users', (req, res) =>
+    userController.deleteUserPerEmail(req, res)
+  )
 }
