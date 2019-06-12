@@ -3,7 +3,7 @@ module.exports = {
   connection: {
     database: 'devninjas',
     user: 'root',
-    password: process.env.PASSWORD
+    password: 'root'
   },
   pool: {
     min: 2,
