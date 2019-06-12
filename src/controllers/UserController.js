@@ -16,7 +16,7 @@ class UserController {
         })
       )
       .catch(error =>
-        res.status(400).json({
+        res.status(500).json({
           success: false,
           message: 'Error creating user.',
           error
