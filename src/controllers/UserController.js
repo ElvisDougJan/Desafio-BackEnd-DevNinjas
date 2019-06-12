@@ -68,6 +68,24 @@ class UserController {
       )
       .catch(err => res.json(err))
   }
+
+  deleteUserPerEmail (req, res) {
+    knex('users')
+      .where({
+        email: req.body.email
+      })
+      .del()
+      .then(userDeleted =>
+        userDeleted === 1
+          ? res.status(200).json({
+            success: true,
+            message: 'User deleted successfully!'
+          })
+          : res.status(400).json({
+            success: false,
+            message: `Email ${req.body.email} user does not exist in database.`
+          }))
+  }
 }
 
 module.exports = UserController
