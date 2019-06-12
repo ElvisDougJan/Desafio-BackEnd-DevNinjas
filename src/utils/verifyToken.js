@@ -10,13 +10,19 @@ exports.verifyToken = (req, res, next) => {
     }
     jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
       if (err) {
-        return res.json('Token inválido.')
+        return res.json({
+          success: false,
+          message: 'Token invalid.'
+        })
       } else {
         req.decode = decode
         next()
       }
     })
   } else {
-    return res.json('Token não informado.')
+    return res.json({
+      success: false,
+      message: 'Token not provided.'
+    })
   }
 }
