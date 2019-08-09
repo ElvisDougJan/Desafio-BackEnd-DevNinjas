@@ -1,4 +1,4 @@
-## API Teste Desenvolvedor NodeJS Dev Ninjas
+## API Exemplo com Nodejs, MySql e Knex
 
 API desenvolvida para participação do processo seletivo da vaga de desenvolvedor.
 
