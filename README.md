@@ -1,7 +1,5 @@
 ## API Exemplo com Nodejs, MySql e Knex
 
-API desenvolvida para participação do processo seletivo da vaga de desenvolvedor.
-
 **_OBS.: O teste necessita de conexão com o banco de dados MySQL instalado localmente._**
 **No código está sendo considerado que o usuário do banco e a senha seja _'root'_ para ambos. Caso queira alterar, realize esta operação alterando o usuário na _linha 5_ e a senha na _linha 6_ no arquivo _knexfile.js_.**
 
@@ -76,5 +74,3 @@ Recomenda-se o uso do [Postman](https://www.getpostman.com/downloads/) para simu
 ```
 
 ##### **_Rode o comando `ALTER USER '<usuario>'@'localhost' IDENTIFIED WITH mysql_native_password BY '<senha>'` para liberar o acesso._**
-
-**Os demais passos seguem o que foi passado no próprio repositório do teste, que pode ser conferido [neste link](https://github.com/godevninjas/backend-challenge/blob/master/README.md).**
